@@ -1,0 +1,63 @@
+project_id = "lifecourse-assessment"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 15
+
+[studio]
+enabled = true
+port = 54323
+
+[auth]
+enabled = true
+site_url = "http://localhost:5173"
+additional_redirect_urls = ["http://localhost:5173"]
+jwt_expiry = 3600
+enable_signup = false
+
+# No anonymous auth is required by the product: sessions are managed by the
+# Edge Functions using per-session opaque tokens, not Supabase Auth.
+[auth.email]
+enable_signup = false
+enable_confirmations = false
+
+[functions.start-test]
+verify_jwt = false
+
+[functions.submit-test]
+verify_jwt = false
+
+[functions.retake]
+verify_jwt = false
+
+[functions.get-result]
+verify_jwt = false
+
+[functions.create-share]
+verify_jwt = false
+
+[functions.shared-result]
+verify_jwt = false
+
+[functions.admin-login]
+verify_jwt = false
+
+[functions.admin-list-codes]
+verify_jwt = false
+
+[functions.admin-create-code]
+verify_jwt = false
+
+[functions.admin-update-code]
+verify_jwt = false
+
+[functions.admin-stats]
+verify_jwt = false

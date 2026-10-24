@@ -1,0 +1,35 @@
+name: Supabase
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/**'
+      - 'shared/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  info:
+    name: Print deployment checklist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reminder
+        run: |
+          cat <<'EOF'
+          数据库与 Edge Function 不会因为前端发布而自动更新。
+          请手动执行（需要你本地的 Supabase CLI 与项目访问令牌）：
+
+            supabase login
+            supabase link --project-ref <你的项目 ref>
+            supabase db push
+            supabase secrets set \
+              CODE_LOOKUP_KEY="$(openssl rand -hex 32)" \
+              SESSION_TOKEN_KEY="$(openssl rand -hex 32)"
+            npm run fn:deploy
+
+          详见 README.md 的「Supabase 后端部署」一节。
+          EOF

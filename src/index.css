@@ -1,0 +1,151 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-cream: #fbf6ee;
+  --color-cream-deep: #f3e9da;
+  --color-card: #fffcf7;
+  --color-orange: #d2762f;
+  --color-orange-soft: #f0c79b;
+  --color-orange-wash: #fbead9;
+  --color-brown: #3a2e26;
+  --color-brown-soft: #6b5749;
+  --color-brown-muted: #9a8878;
+  --color-line: #e7d9c6;
+  --color-ink: #241c16;
+  --color-accent-green: #5f7a55;
+  --color-accent-red: #b5565a;
+
+  --font-sans:
+    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', 'Source Han Sans SC',
+    system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Songti SC', 'Noto Serif SC', 'Source Han Serif SC', 'STSong', serif;
+
+  --radius-card: 1.5rem;
+
+  --shadow-soft: 0 1px 2px rgb(58 46 38 / 0.04), 0 12px 32px -12px rgb(58 46 38 / 0.18);
+  --shadow-lift: 0 2px 4px rgb(58 46 38 / 0.05), 0 24px 56px -20px rgb(58 46 38 / 0.28);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream text-brown font-sans antialiased;
+    /* Prevent iOS from re-flowing the layout when the soft keyboard opens. */
+    min-height: 100dvh;
+    overscroll-behavior-y: none;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-orange;
+  }
+
+  ::selection {
+    @apply bg-orange-soft text-ink;
+  }
+
+  /* Keep long Chinese strings and pasted codes from breaking layout. */
+  p,
+  li,
+  h1,
+  h2,
+  h3,
+  h4 {
+    overflow-wrap: anywhere;
+    word-break: normal;
+    line-break: strict;
+  }
+
+  input,
+  textarea,
+  button {
+    font: inherit;
+  }
+}
+
+@layer components {
+  .paper {
+    background-color: var(--color-card);
+    background-image:
+      radial-gradient(circle at 12% 8%, rgb(240 199 155 / 0.35), transparent 45%),
+      radial-gradient(circle at 92% 4%, rgb(251 234 217 / 0.9), transparent 38%);
+  }
+
+  .grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  }
+
+  .rule-dotted {
+    background-image: linear-gradient(
+      to right,
+      var(--color-line) 0 4px,
+      transparent 4px 9px
+    );
+    background-size: 9px 1px;
+    background-repeat: repeat-x;
+    height: 1px;
+  }
+}
+
+@layer utilities {
+  .safe-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
+  .safe-top {
+    padding-top: max(0.75rem, env(safe-area-inset-top));
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-rise {
+  animation: rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-fade {
+  animation: fade 0.3s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
